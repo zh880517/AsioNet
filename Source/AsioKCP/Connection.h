@@ -31,6 +31,8 @@ namespace asio_kcp
 		void DoTimeout();
 		void SendMsg(const std::string& msg);
 
+		uint32_t GetConv()const { return Conv; }
+
 		std::string RemoteAddress()const { return RemoteEndpoint.address().to_string(); }
 		uint32_t RemotePort()const { return RemoteEndpoint.port(); }
 
@@ -55,6 +57,5 @@ namespace asio_kcp
 		asio::ip::udp::endpoint RemoteEndpoint;
 		uint64_t LastPacketRecvTime = 0;
 	};
-	using ConnectionPtr = std::shared_ptr<Connection>;
 }
 

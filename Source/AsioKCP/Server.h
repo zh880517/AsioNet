@@ -8,7 +8,7 @@ namespace asio {
 }
 namespace asio_kcp 
 {
-	class ConnectionSocket;
+	class ServerSocket;
 	class ConnectionContainer;
 	class Server
 	{
@@ -27,8 +27,7 @@ namespace asio_kcp
 		uint32_t RemotePort(uint32_t conv);
 
 	private:
-		std::shared_ptr<ConnectionContainer> Connections;
-		std::shared_ptr<ConnectionSocket> Socket;
+		std::shared_ptr<ServerSocket> Socket;
 	};
 
 }
