@@ -1,13 +1,13 @@
-project "AsioKCP"
+project "AsioNet"
     language "C++"
     kind "StaticLib"
     includedirs { 
-		".",
+		"./",
 		"../../asio",
 	}
     files { 
 		"**.h",
 		"**.cpp",
-		"**.hpp",
+		"**.c",
 		"**.lua",
 	}

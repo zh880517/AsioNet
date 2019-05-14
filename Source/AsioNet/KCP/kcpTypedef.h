@@ -3,13 +3,14 @@
 #include <string>
 namespace asio_kcp
 {
-	enum eEventType
+	enum class eEventType 
 	{
 		eConnect,
 		eDisconnect,
 		eRcvMsg,
 		eLagNotify,
 		eTimeout,
+		eConnectFaile,
 
 		eCountOfEventType
 	};
@@ -21,10 +22,10 @@ namespace asio_kcp
 	{
 		switch (eventType)
 		{
-		case eConnect: return "eConnect";
-		case eDisconnect: return "eDisconnect";
-		case eRcvMsg: return "eRcvMsg";
-		case eLagNotify: return "eLagNotify";
+		case eEventType::eConnect: return "eConnect";
+		case eEventType::eDisconnect: return "eDisconnect";
+		case eEventType::eRcvMsg: return "eRcvMsg";
+		case eEventType::eLagNotify: return "eLagNotify";
 		default: return "unknown";
 		}
 	}

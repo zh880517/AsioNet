@@ -1,6 +1,6 @@
 #include "ConnectionSocket.h"
 #include "Connection.h"
-#include "ConnectPacket.hpp"
+#include "ConnectPacket.h"
 #include <iostream>
 #include "ikcp.h"
 namespace asio_kcp 

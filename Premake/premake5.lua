@@ -1,4 +1,4 @@
-workspace "AsioNet"
+workspace "Dev"
     configurations { "Debug", "Release" }
     location "../Build"
     cppdialect "C++11"
@@ -17,4 +17,4 @@ workspace "AsioNet"
             "*.lua",
         }
         
-    include "../Source/AsioKCP"
+    include "../Source/AsioNet"

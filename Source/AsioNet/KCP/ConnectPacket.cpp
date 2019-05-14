@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <stdio.h>
 
-#include "ConnectPacket.hpp"
+#include "ConnectPacket.h"
 
 #define ASIO_KCP_CONNECT_PACKET "asio_kcp_connect_package get_conv"
 #define ASIO_KCP_SEND_BACK_CONV_PACKET "asio_kcp_connect_back_package get_conv:"

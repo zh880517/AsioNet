@@ -1,5 +1,5 @@
 #include "Connection.h"
-#include "ConnectPacket.hpp"
+#include "ConnectPacket.h"
 #include "ConnectionSocket.h"
 #include "kcpTypedef.h"
 #include <iostream>
@@ -53,7 +53,7 @@ namespace asio_kcp
 				std::shared_ptr<std::string> package = std::make_shared<std::string>(kcp_buf, kcp_recvd_bytes);
 				if (auto ptr = Manager.lock())
 				{
-					ptr->OnEvent(Conv, eRcvMsg, package);
+					ptr->OnEvent(Conv, eEventType::eRcvMsg, package);
 				}
 			}
 		}

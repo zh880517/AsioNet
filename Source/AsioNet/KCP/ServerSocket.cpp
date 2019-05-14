@@ -1,5 +1,5 @@
 #include "ServerSocket.h"
-#include "ConnectPacket.hpp"
+#include "ConnectPacket.h"
 #include "ikcp.h"
 #include <iostream>
 
@@ -117,7 +117,7 @@ namespace asio_kcp
 		int ret = ikcp_get_conv(udp_data_, bytes_recvd, &conv);
 		if (ret == 0)
 		{
-			throw std::exception("ikcp_get_conv return 0");
+			return;
 		}
 
 		auto conn_ptr = Connections.Find(conv);

@@ -3,6 +3,14 @@
 
 namespace asio_kcp
 {
+	enum class ClientSocketStage
+	{
+		eNone,
+		eConnecting,
+		eConnected,
+		eTimeOut,
+	};
+
 	class Connection;
 	class ClientSocket : public ConnectionSocket, public std::enable_shared_from_this<ClientSocket>
 	{
@@ -35,7 +43,12 @@ namespace asio_kcp
 
 		void HandleKcpPacket(size_t bytes_recvd);
 
+		void DoConnect();
+
 	private:
+		ClientSocketStage Stage = ClientSocketStage::eNone;
+		uint64_t ConnectStartClock = 0;
+		uint64_t NextReConnectTime = 0;
 		bool Connected = false;
 		asio::io_service* Service = nullptr;
 		asio::ip::udp::socket Socket;
