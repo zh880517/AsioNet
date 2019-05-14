@@ -1,6 +1,6 @@
 #include "ConnectionContainer.h"
 
-namespace asio_kcp 
+namespace AsioKCP 
 {
 
 	ConnectionContainer::ConnectionContainer()

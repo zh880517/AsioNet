@@ -8,7 +8,7 @@
 
 
 
-namespace asio_kcp {
+namespace AsioKCP {
 
 std::string making_connect_packet(void);
 bool is_connect_packet(const char* data, size_t len);

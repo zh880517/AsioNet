@@ -1,11 +1,11 @@
 #include "Server.h"
 #include "ServerSocket.h"
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	Server::Server(asio::io_service& service, const std::string & address, const uint32_t port)
 		:Socket(std::make_shared<ServerSocket>(service, address, port))
+		,Port(port)
 	{
-		
 	}
 
 	void Server::Update(uint64_t clock)

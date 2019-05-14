@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include "Connection.h"
 
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	class ConnectionContainer
 	{

@@ -6,7 +6,7 @@ namespace asio {
 	class io_context;
 	typedef io_context io_service;
 }
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	class ServerSocket;
 	class ConnectionContainer;
@@ -25,8 +25,10 @@ namespace asio_kcp
 
 		std::string RemoteAddress(uint32_t conv);
 		uint32_t RemotePort(uint32_t conv);
+		uint32_t GetPort()const { return Port; }
 
 	private:
+		uint32_t Port;
 		std::shared_ptr<ServerSocket> Socket;
 	};
 

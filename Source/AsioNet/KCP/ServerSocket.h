@@ -1,7 +1,7 @@
 #pragma once
 #include "ConnectionSocket.h"
 #include "ConnectionContainer.h"
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	class ServerSocket : public ConnectionSocket, public std::enable_shared_from_this<ServerSocket>
 	{

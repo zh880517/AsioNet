@@ -3,7 +3,7 @@
 #include "kcpTypedef.h"
 #include "ConnectionContainer.h"
 
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	class ConnectionSocket
 	{

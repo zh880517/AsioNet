@@ -5,7 +5,7 @@
 #include <iostream>
 #include "ikcp.h"
 
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	Connection::Connection(const std::weak_ptr<ConnectionSocket>& manager_ptr)
 		:Manager(manager_ptr)
@@ -101,7 +101,7 @@ namespace asio_kcp
 
 	void Connection::Clean()
 	{
-		std::string disconnect_msg = asio_kcp::making_disconnect_packet(Conv);
+		std::string disconnect_msg = AsioKCP::making_disconnect_packet(Conv);
 		SendPackage(disconnect_msg.c_str(), disconnect_msg.size());
 		ikcp_release(Kcp);
 		Kcp = nullptr;

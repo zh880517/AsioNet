@@ -3,7 +3,7 @@
 #include "ConnectPacket.h"
 #include <iostream>
 
-namespace asio_kcp
+namespace AsioKCP
 {
 	ClientSocket::ClientSocket(asio::io_service & service, bool ipv6)
 		: Service(&service)
@@ -120,7 +120,7 @@ namespace asio_kcp
 			}
 			if (Stage == ClientSocketStage::eConnecting)
 			{
-				if (asio_kcp::is_send_back_conv_packet(udp_data_, bytes_recvd))
+				if (AsioKCP::is_send_back_conv_packet(udp_data_, bytes_recvd))
 				{
 					uint32_t conv = grab_conv_from_send_back_conv_packet(udp_data_, bytes_recvd);
 					ConnectionPtr = Connection::Create(weak_from_this(), conv, EndPoint);

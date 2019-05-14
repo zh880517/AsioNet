@@ -9,7 +9,7 @@
 #define ASIO_KCP_SEND_BACK_CONV_PACKET "asio_kcp_connect_back_package get_conv:"
 #define ASIO_KCP_DISCONNECT_PACKET "asio_kcp_disconnect_package"
 
-namespace asio_kcp {
+namespace AsioKCP {
 
 std::string making_connect_packet(void)
 {

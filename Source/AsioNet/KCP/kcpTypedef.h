@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
-namespace asio_kcp
+namespace AsioKCP
 {
 	enum class eEventType 
 	{

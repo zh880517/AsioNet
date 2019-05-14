@@ -8,7 +8,7 @@
 struct IKCPCB;
 typedef struct IKCPCB ikcpcb;
 
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	class ConnectionSocket;
 

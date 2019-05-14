@@ -1,7 +1,7 @@
 #pragma once
 #include "ConnectionSocket.h"
 
-namespace asio_kcp
+namespace AsioKCP
 {
 	enum class ClientSocketStage
 	{

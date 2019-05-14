@@ -1,7 +1,7 @@
 #include "Client.h"
 #include "ClientSocket.h"
 
-namespace asio_kcp
+namespace AsioKCP
 {
 	Client::Client(asio::io_service & service, bool ipv6)
 		: Socket(std::make_shared<ClientSocket>(service, ipv6))

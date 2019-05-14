@@ -3,7 +3,7 @@
 #include "ConnectPacket.h"
 #include <iostream>
 #include "ikcp.h"
-namespace asio_kcp 
+namespace AsioKCP 
 {
 	void ConnectionSocket::Update(uint64_t clock)
 	{

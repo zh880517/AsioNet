@@ -3,7 +3,7 @@
 #include "ikcp.h"
 #include <iostream>
 
-namespace asio_kcp
+namespace AsioKCP
 {
 	ServerSocket::ServerSocket(asio::io_service & service, const std::string & address, int udp_port)
 		: Socket(service, asio::ip::udp::endpoint(asio::ip::address::from_string(address), udp_port))
@@ -77,7 +77,7 @@ namespace asio_kcp
 				printf("\nhandle_udp_receive_from error end! error: %s, bytes_recvd: %ld\n", error.message().c_str(), bytes_recvd);
 				break;
 			}
-			if (asio_kcp::is_connect_packet(udp_data_, bytes_recvd))
+			if (AsioKCP::is_connect_packet(udp_data_, bytes_recvd))
 			{
 				HandleConnectPacket();
 				break;
@@ -106,7 +106,7 @@ namespace asio_kcp
 	void ServerSocket::HandleConnectPacket()
 	{
 		uint32_t conv = Connections.GetNewConv();
-		static std::string send_back_msg = asio_kcp::making_send_back_conv_packet(conv);
+		static std::string send_back_msg = AsioKCP::making_send_back_conv_packet(conv);
 		auto connect = Connections.Add(shared_from_this(), conv, EndPoint);
 		connect->SendMsg(send_back_msg);
 	}

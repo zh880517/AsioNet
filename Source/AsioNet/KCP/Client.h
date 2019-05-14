@@ -7,7 +7,7 @@ namespace asio {
 	typedef io_context io_service;
 }
 
-namespace asio_kcp
+namespace AsioKCP
 {
 	class ClientSocket;
 
