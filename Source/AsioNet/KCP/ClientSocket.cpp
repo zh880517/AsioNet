@@ -16,8 +16,17 @@ namespace AsioKCP
 	{
 		if (Stage == ClientSocketStage::eNone)
 		{
-			auto resolver = asio::ip::udp::resolver(*Service);
-			EndPoint = *(resolver.resolve(host).begin());
+			asio::error_code ec;
+			auto address = asio::ip::address::from_string(host);
+			if (ec)
+			{
+				auto resolver = asio::ip::udp::resolver(*Service);
+				EndPoint = *(resolver.resolve(host).begin());
+			}
+			else
+			{
+				EndPoint = asio::ip::udp::endpoint(address, port);
+			}
 			//ConnectionPtr = Connection::Create(weak_from_this(), 1001, EndPoint);
 			DoConnect();
 		}
@@ -25,7 +34,7 @@ namespace AsioKCP
 
 	int ClientSocket::SendMsg(const std::string & msg)
 	{
-		if (!Connected || !ConnectionPtr)
+		if (Stage != ClientSocketStage::eConnected || !ConnectionPtr)
 			return -1;
 		ConnectionPtr->SendMsg(msg);
 		return 0;
@@ -71,7 +80,7 @@ namespace AsioKCP
 	{
 		if (Stage == ClientSocketStage::eConnecting)
 		{
-			if (NextReConnectTime > 0 && ConnectStartClock > 0)
+			if (NextReConnectTime != -1 && ConnectStartClock != -1)
 			{
 				//5 second timeout
 				if (Clock - ConnectStartClock > 5000)
@@ -100,7 +109,7 @@ namespace AsioKCP
 			{
 				ConnectionPtr->DoTimeout();
 				ConnectionPtr.reset();
-				Connected = false;
+				Stage = ClientSocketStage::eNone;
 			}
 		}
 	}
@@ -122,6 +131,7 @@ namespace AsioKCP
 			{
 				if (AsioKCP::is_send_back_conv_packet(udp_data_, bytes_recvd))
 				{
+					Stage = ClientSocketStage::eConnected;
 					uint32_t conv = grab_conv_from_send_back_conv_packet(udp_data_, bytes_recvd);
 					ConnectionPtr = Connection::Create(weak_from_this(), conv, EndPoint);
 					static std::shared_ptr<std::string> msg = std::make_shared<std::string>("Connect Server Success");
@@ -137,8 +147,6 @@ namespace AsioKCP
 
 	void ClientSocket::HookUdpAsyncReceive(void)
 	{
-		if (ConnectionPtr)
-			return;
 		Socket.async_receive_from(
 			asio::buffer(udp_data_, sizeof(udp_data_)), EndPoint,
 			std::bind(&ClientSocket::HandleUdpReceiveFrom, shared_from_this(),
@@ -155,7 +163,7 @@ namespace AsioKCP
 		}
 		if (!ConnectionPtr || ConnectionPtr->GetConv() != conv)
 		{
-			std::cout << "connection not exist with conv: " << conv << std::endl;
+			std::cout << "connection not exist with conv: " << conv << " " << Socket.local_endpoint().port() << std::endl;
 			return;
 		}
 		ConnectionPtr->Input(udp_data_, bytes_recvd, EndPoint);

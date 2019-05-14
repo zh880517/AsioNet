@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <map>
+#include "KCP/kcpTypedef.h"
 #include "KCP/Client.h"
 #include "KCP/Server.h"
 
@@ -20,6 +21,12 @@ namespace AsioNet
 		void DestoryServer(const std::shared_ptr<AsioKCP::Server>& server);
 
 		void DestoryClient(const std::shared_ptr<AsioKCP::Client>& client);
+
+		void Sleep(uint32_t millisecond);
+
+	private:
+
+		uint64_t Now();
 
 	private:
 		std::shared_ptr<asio::io_service> Service;

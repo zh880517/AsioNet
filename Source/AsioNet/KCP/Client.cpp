@@ -8,7 +8,12 @@ namespace AsioKCP
 	{
 	}
 
-	void Client::Update(uint64_t clock)
+	void Client::Connect(const std::string & host, uint32_t port)
+	{
+		Socket->Connect(host, port);
+	}
+
+	void Client::Update(int64_t clock)
 	{
 		Socket->Update(clock);
 	}

@@ -10,6 +10,8 @@ namespace AsioKCP
 
 		void Stop();
 
+		void Start();
+
 		int SendMsg(uint32_t conv, const std::string& msg);
 
 		void ForceDisconnect(uint32_t conv);

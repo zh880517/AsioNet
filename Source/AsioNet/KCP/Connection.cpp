@@ -34,7 +34,7 @@ namespace AsioKCP
 		RemoteEndpoint = udp_remote_endpoint;
 	}
 
-	void Connection::Update(uint64_t clock)
+	void Connection::Update(int64_t clock)
 	{
 		ikcp_update(Kcp, static_cast<uint32_t>(clock - StartClock));
 	}
@@ -43,18 +43,28 @@ namespace AsioKCP
 	{
 		LastPacketRecvTime = GetClock();
 		RemoteEndpoint = udp_remote_endpoint;
-
+		
 		ikcp_input(Kcp, udp_data, bytes_recvd);
 		{
-			char kcp_buf[1024 * 1000] = "";
-			int kcp_recvd_bytes = ikcp_recv(Kcp, kcp_buf, sizeof(kcp_buf));
-			if (kcp_recvd_bytes > 0)
+			int32_t checkSize = ikcp_peeksize(Kcp);
+			if (checkSize > 0)
 			{
-				std::shared_ptr<std::string> package = std::make_shared<std::string>(kcp_buf, kcp_recvd_bytes);
 				if (auto ptr = Manager.lock())
 				{
-					ptr->OnEvent(Conv, eEventType::eRcvMsg, package);
+					std::shared_ptr<std::string> package = std::make_shared<std::string>(checkSize, 0);
+					int kcp_recvd_bytes = ikcp_recv(Kcp, &((*package)[0]), checkSize);
+					if (kcp_recvd_bytes > 0)
+					{
+						ptr->OnEvent(Conv, eEventType::eRcvMsg, package);
+					}
 				}
+			}
+			else
+			{
+				char buffer[1024] = { 0 };
+				int size = ikcp_recv(Kcp, buffer, 1024);
+				if (size > 0)
+					std::cout << buffer << std::endl;
 			}
 		}
 	}
@@ -63,7 +73,7 @@ namespace AsioKCP
 	{
 		if (LastPacketRecvTime == 0)
 			return false;
-
+		int64_t time = GetClock() - LastPacketRecvTime;
 		return GetClock() - LastPacketRecvTime > GetTimeoutTime();
 	}
 

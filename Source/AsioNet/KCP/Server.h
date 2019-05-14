@@ -17,7 +17,7 @@ namespace AsioKCP
 		Server(const Server&) = delete;
 		const Server& operator=(const Server&) = delete;
 
-		void Update(uint64_t clock);
+		void Update(int64_t clock);
 		void SetCallback(const std::function<event_callback_t>& func);
 		int SendMsg(uint32_t conv, const std::string& msg);
 		void ForceDisconnect(uint32_t conv);
@@ -31,6 +31,6 @@ namespace AsioKCP
 		uint32_t Port;
 		std::shared_ptr<ServerSocket> Socket;
 	};
-
+	using ServerPtr = std::shared_ptr<Server>;
 }
 

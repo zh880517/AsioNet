@@ -12,11 +12,9 @@ namespace AsioKCP
 		eTimeout,
 		eConnectFaile,
 
-		eCountOfEventType
 	};
 
-
-	typedef void(event_callback_t)(uint32_t /*conv*/, eEventType /*event_type*/, std::shared_ptr<std::string> /*msg*/);
+	typedef void(event_callback_t)(uint32_t /*conv*/, eEventType /*event_type*/, std::shared_ptr<std::string>& /*msg*/);
 
 	inline const char* eventTypeStr(eEventType eventType)
 	{
@@ -26,6 +24,8 @@ namespace AsioKCP
 		case eEventType::eDisconnect: return "eDisconnect";
 		case eEventType::eRcvMsg: return "eRcvMsg";
 		case eEventType::eLagNotify: return "eLagNotify";
+		case eEventType::eTimeout: return "eTimeout";
+		case eEventType::eConnectFaile: return "eConnectFaile";
 		default: return "unknown";
 		}
 	}

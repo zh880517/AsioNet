@@ -8,8 +8,10 @@ namespace AsioKCP
 	{
 	}
 
-	void Server::Update(uint64_t clock)
+	void Server::Update(int64_t clock)
 	{
+		if (Socket->GetClock() == 0)
+			Socket->Start();
 		Socket->Update(clock);
 	}
 

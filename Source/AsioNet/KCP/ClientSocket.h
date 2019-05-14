@@ -21,7 +21,7 @@ namespace AsioKCP
 
 		int SendMsg(const std::string& msg);
 
-		bool IsConnected() { return Connected && ConnectionPtr; }
+		bool IsConnected() { return Stage != ClientSocketStage::eConnected && ConnectionPtr; }
 
 		void Diconnect();
 
@@ -47,9 +47,8 @@ namespace AsioKCP
 
 	private:
 		ClientSocketStage Stage = ClientSocketStage::eNone;
-		uint64_t ConnectStartClock = 0;
-		uint64_t NextReConnectTime = 0;
-		bool Connected = false;
+		int64_t ConnectStartClock = -1;
+		int64_t NextReConnectTime = -1;
 		asio::io_service* Service = nullptr;
 		asio::ip::udp::socket Socket;
 		std::shared_ptr<Connection> ConnectionPtr;

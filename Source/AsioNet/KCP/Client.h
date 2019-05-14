@@ -18,9 +18,14 @@ namespace AsioKCP
 		Client(const Client&) = delete;
 		const Client& operator=(const Client&) = delete;
 
-		void Update(uint64_t clock);
+		void Connect(const std::string& host, uint32_t port);
+
+		void Update(int64_t clock);
+
 		void SetCallback(const std::function<event_callback_t>& func);
+
 		int SendMsg(const std::string& msg);
+
 		void Diconnect();
 
 		std::string RemoteAddress();
@@ -29,5 +34,6 @@ namespace AsioKCP
 	private:
 		std::shared_ptr<ClientSocket> Socket;
 	};
+	using ClientPtr = std::shared_ptr<Client>;
 }
 

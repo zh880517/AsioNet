@@ -10,7 +10,7 @@ namespace AsioKCP
 	public:
 		virtual ~ConnectionSocket() {}
 
-		void Update(uint64_t clock);
+		void Update(int64_t clock);
 
 		void SetCallback(const std::function<event_callback_t>& func);
 
@@ -27,7 +27,7 @@ namespace AsioKCP
 	protected:
 		std::function<event_callback_t> EventCallback;
 		char udp_data_[1024 * 32] = {0};
-		uint64_t Clock = 0;
+		int64_t Clock = 0;
 		asio::ip::udp::endpoint EndPoint;
 	};
 }

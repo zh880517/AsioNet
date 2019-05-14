@@ -5,7 +5,7 @@
 #include "ikcp.h"
 namespace AsioKCP 
 {
-	void ConnectionSocket::Update(uint64_t clock)
+	void ConnectionSocket::Update(int64_t clock)
 	{
 		Clock = clock;
 		OnUpdate();

@@ -9,12 +9,15 @@ workspace "Dev"
     filter "configurations:Release"
         defines     "NDEBUG"
         optimize    "Full"
-    project "rebuildproject"
-        language "C++"
-        kind "Utility"
-        prebuildcommands {"cd ../", "call make_vs_dev.bat"}
-        files{
-            "*.lua",
-        }
-        
+	group "ThirdParty"
+		project "rebuildproject"
+			language "C++"
+			kind "Utility"
+			prebuildcommands {"cd ../", "call make_vs_dev.bat"}
+			files{
+				"*.lua",
+			}
+    group ""
     include "../Source/AsioNet"
+    include "../Source/Client"
+    include "../Source/Server"

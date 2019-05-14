@@ -8,7 +8,7 @@ namespace AsioKCP
 	ServerSocket::ServerSocket(asio::io_service & service, const std::string & address, int udp_port)
 		: Socket(service, asio::ip::udp::endpoint(asio::ip::address::from_string(address), udp_port))
 	{
-		HookUdpAsyncReceive();
+		
 	}
 	void ServerSocket::Stop()
 	{
@@ -16,6 +16,11 @@ namespace AsioKCP
 		Socket.cancel();
 		Socket.close();
 		Connections.StopAll();
+	}
+
+	void ServerSocket::Start()
+	{
+		HookUdpAsyncReceive();
 	}
 
 	int ServerSocket::SendMsg(uint32_t conv, const std::string & msg)
@@ -96,6 +101,7 @@ namespace AsioKCP
 	{
 		if (Stopped)
 			return;
+		auto ptr = shared_from_this();
 		Socket.async_receive_from(
 			asio::buffer(udp_data_, sizeof(udp_data_)), EndPoint,
 			std::bind(&ServerSocket::HandleUdpReceiveFrom, shared_from_this(),
@@ -106,9 +112,9 @@ namespace AsioKCP
 	void ServerSocket::HandleConnectPacket()
 	{
 		uint32_t conv = Connections.GetNewConv();
-		static std::string send_back_msg = AsioKCP::making_send_back_conv_packet(conv);
+		std::string send_back_msg = AsioKCP::making_send_back_conv_packet(conv);
 		auto connect = Connections.Add(shared_from_this(), conv, EndPoint);
-		connect->SendMsg(send_back_msg);
+		SendPackage(send_back_msg.data(), send_back_msg.length(), EndPoint);
 	}
 
 	void ServerSocket::HandleKcpPacket(size_t bytes_recvd)

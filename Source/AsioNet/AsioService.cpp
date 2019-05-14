@@ -15,7 +15,8 @@ namespace AsioNet
 
 	void AsioService::Update()
 	{
-		uint64_t clock = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+		Service->poll();
+		uint64_t clock = Now();
 		for (auto& kv : Servers)
 		{
 			kv.second->Update(clock);
@@ -54,6 +55,17 @@ namespace AsioNet
 	void AsioService::DestoryClient(const std::shared_ptr<AsioKCP::Client>& client)
 	{
 		Clients.erase(client.get());
+	}
+
+	void AsioService::Sleep(uint32_t millisecond)
+	{
+		asio::steady_timer t(*(Service.get()), std::chrono::milliseconds(millisecond));
+		t.wait();
+	}
+
+	uint64_t AsioService::Now()
+	{
+		return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 	}
 
 }

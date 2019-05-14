@@ -23,7 +23,7 @@ namespace AsioKCP
 
 		void SetUdpRemoteEndpoint(const asio::ip::udp::endpoint& udp_remote_endpoint);
 
-		void Update(uint64_t clock);
+		void Update(int64_t clock);
 
 		void Input(char* udp_data, size_t bytes_recvd, const asio::ip::udp::endpoint& udp_remote_endpoint);
 
@@ -52,10 +52,10 @@ namespace AsioKCP
 	private:
 		std::weak_ptr<ConnectionSocket> Manager;
 		uint32_t Conv = 0;
-		uint64_t StartClock = 0;
+		int64_t StartClock = 0;
 		ikcpcb* Kcp = nullptr;
 		asio::ip::udp::endpoint RemoteEndpoint;
-		uint64_t LastPacketRecvTime = 0;
+		int64_t LastPacketRecvTime = 0;
 	};
 }
 
