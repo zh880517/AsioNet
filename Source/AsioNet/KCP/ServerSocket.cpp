@@ -65,7 +65,7 @@ namespace AsioKCP
 // 			std::bind(&ServerSocket::HandleUdpSend, shared_from_this(),
 // 				std::placeholders::_1,
 // 				std::placeholders::_2));
-		Socket.send_to(asio::buffer(data, len), EndPoint);
+		Socket.send_to(asio::buffer(data, len), endpoint);
 	}
 
 	void ServerSocket::OnUpdate()
