@@ -28,7 +28,9 @@ namespace AsioKCP
 		void Input(char* udp_data, size_t bytes_recvd, const asio::ip::udp::endpoint& udp_remote_endpoint);
 
 		bool IsTimeout() const;
+
 		void DoTimeout();
+
 		void SendMsg(const std::string& msg);
 
 		uint32_t GetConv()const { return Conv; }

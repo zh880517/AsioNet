@@ -25,6 +25,18 @@ namespace AsioKCP
 	{
 		return Socket->SendMsg(msg);
 	}
+	int Client::SendMsg(uint32_t peerConv, const std::string & msg)
+	{
+		return Socket->SendMsg(peerConv, msg);
+	}
+	void Client::AddPeer(uint32_t conv, const std::string & address, uint32_t port)
+	{
+		Socket->AddPeer(conv, address, port);
+	}
+	void Client::RemovePeer(uint32_t conv)
+	{
+		Socket->RemovePeer(conv);
+	}
 	void Client::Diconnect()
 	{
 		Socket->Diconnect();
@@ -36,5 +48,13 @@ namespace AsioKCP
 	uint32_t Client::RemotePort()
 	{
 		return Socket->RemotePort();
+	}
+	std::string Client::PeerRemoteAddress(uint32_t conv)
+	{
+		return Socket->PeerRemoteAddress(conv);
+	}
+	uint32_t Client::PreerRemotePort(uint32_t conv)
+	{
+		return Socket->PreerRemotePort(conv);
 	}
 }

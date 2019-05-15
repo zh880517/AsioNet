@@ -1,8 +1,7 @@
 #pragma once
 #include <functional>
 #include "kcpTypedef.h"
-#include "ConnectionContainer.h"
-
+#include "Connection.h"
 namespace AsioKCP 
 {
 	class ConnectionSocket

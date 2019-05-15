@@ -6,7 +6,7 @@ void main()
 {
 	AsioNet::AsioService seivice;
 	std::vector<ClientTest*> vec;
-	for (int i=0; i<10; ++i)
+	for (int i=0; i<100; ++i)
 	{
 		vec.push_back(new ClientTest(seivice.CreateKCPClent()));
 	}

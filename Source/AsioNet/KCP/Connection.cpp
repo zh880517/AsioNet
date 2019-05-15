@@ -74,7 +74,7 @@ namespace AsioKCP
 		if (LastPacketRecvTime == 0)
 			return false;
 		int64_t time = GetClock() - LastPacketRecvTime;
-		return GetClock() - LastPacketRecvTime > GetTimeoutTime();
+		return time > GetTimeoutTime();
 	}
 
 	void Connection::DoTimeout()

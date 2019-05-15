@@ -40,6 +40,15 @@ namespace AsioKCP
 		return 0;
 	}
 
+	int ClientSocket::SendMsg(uint32_t peerConv, const std::string & msg)
+	{
+		if (auto ptr = PeerConnections.Find(peerConv))
+		{
+			ptr->SendMsg(msg);
+		}
+		return -1;
+	}
+
 	void ClientSocket::Diconnect()
 	{
 		asio::error_code ec;
@@ -53,6 +62,17 @@ namespace AsioKCP
 		}
 	}
 
+	void ClientSocket::AddPeer(uint32_t conv, const std::string & address, uint32_t port)
+	{
+		asio::ip::udp::endpoint endpoint(asio::ip::address::from_string(address), port);
+		PeerConnections.Add(weak_from_this(), conv, endpoint);
+	}
+
+	void ClientSocket::RemovePeer(uint32_t conv)
+	{
+		PeerConnections.Remove(conv);
+	}
+
 	std::string ClientSocket::RemoteAddress()
 	{
 		if (ConnectionPtr)
@@ -64,6 +84,24 @@ namespace AsioKCP
 	{
 		if (ConnectionPtr)
 			return ConnectionPtr->RemotePort();
+		return 0;
+	}
+
+	std::string ClientSocket::PeerRemoteAddress(uint32_t conv)
+	{
+		if (auto ptr = PeerConnections.Find(conv))
+		{
+			return ptr->RemoteAddress();
+		}
+		return std::string();
+	}
+
+	uint32_t ClientSocket::PreerRemotePort(uint32_t conv)
+	{
+		if (auto ptr = PeerConnections.Find(conv))
+		{
+			return ptr->RemotePort();
+		}
 		return 0;
 	}
 
@@ -112,6 +150,7 @@ namespace AsioKCP
 				Stage = ClientSocketStage::eNone;
 			}
 		}
+		PeerConnections.Update(Clock);
 	}
 
 	void ClientSocket::HandleUdpSend(const std::error_code & error, size_t bytes_recvd)
@@ -161,12 +200,21 @@ namespace AsioKCP
 		{
 			return;
 		}
-		if (!ConnectionPtr || ConnectionPtr->GetConv() != conv)
+		if (ConnectionPtr && ConnectionPtr->GetConv() == conv)
 		{
-			std::cout << "connection not exist with conv: " << conv << " " << Socket.local_endpoint().port() << std::endl;
-			return;
+			ConnectionPtr->Input(udp_data_, bytes_recvd, EndPoint);
 		}
-		ConnectionPtr->Input(udp_data_, bytes_recvd, EndPoint);
+		else
+		{
+			if (auto ptr = PeerConnections.Find(conv))
+			{
+				ptr->Input(udp_data_, bytes_recvd, EndPoint);
+			}
+			else
+			{
+				std::cout << "connection not exist with conv: " << conv << " " << Socket.local_endpoint().port() << std::endl;
+			}
+		}
 	}
 	void ClientSocket::DoConnect()
 	{

@@ -1,5 +1,6 @@
 #pragma once
 #include "ConnectionSocket.h"
+#include "ConnectionContainer.h"
 
 namespace AsioKCP
 {
@@ -21,13 +22,23 @@ namespace AsioKCP
 
 		int SendMsg(const std::string& msg);
 
+		int SendMsg(uint32_t peerConv, const std::string& msg);
+
 		bool IsConnected() { return Stage != ClientSocketStage::eConnected && ConnectionPtr; }
 
 		void Diconnect();
 
+		void AddPeer(uint32_t conv, const std::string& address, uint32_t port);
+
+		void RemovePeer(uint32_t conv);
+
 		std::string RemoteAddress();
 
 		uint32_t RemotePort();
+
+		std::string PeerRemoteAddress(uint32_t conv);
+
+		uint32_t PreerRemotePort(uint32_t conv);
 
 		virtual void SendPackage(const char * data, size_t len, const asio::ip::udp::endpoint & endpoint) override;
 	protected:
@@ -52,5 +63,6 @@ namespace AsioKCP
 		asio::io_service* Service = nullptr;
 		asio::ip::udp::socket Socket;
 		std::shared_ptr<Connection> ConnectionPtr;
+		ConnectionContainer PeerConnections;
 	};
 }

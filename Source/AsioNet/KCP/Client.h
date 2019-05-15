@@ -26,10 +26,21 @@ namespace AsioKCP
 
 		int SendMsg(const std::string& msg);
 
+		int SendMsg(uint32_t peerConv, const std::string& msg);
+
+		void AddPeer(uint32_t conv, const std::string& address, uint32_t port);
+
+		void RemovePeer(uint32_t conv);
+
 		void Diconnect();
 
 		std::string RemoteAddress();
+
 		uint32_t RemotePort();
+
+		std::string PeerRemoteAddress(uint32_t conv);
+
+		uint32_t PreerRemotePort(uint32_t conv);
 
 	private:
 		std::shared_ptr<ClientSocket> Socket;
